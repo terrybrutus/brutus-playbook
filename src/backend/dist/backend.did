@@ -1,0 +1,98 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type Timestamp = nat;
+type Timeframe = text;
+type SignalType = 
+ variant {
+   noTrade;
+   pushThroughLong;
+   pushThroughShort;
+   snapbackLong;
+   snapbackShort;
+ };
+type SignalRow = 
+ record {
+   alertId: text;
+   asset: Asset;
+   bandWidth: float64;
+   bbBasis: float64;
+   bbLower: float64;
+   bbUpper: float64;
+   close: float64;
+   decisionEvent: text;
+   high: float64;
+   inSession: bool;
+   longSnapback: bool;
+   low: float64;
+   minutesIntoBar: float64;
+   mode: text;
+   name: text;
+   open: float64;
+   pushThrough: bool;
+   rsi: float64;
+   shortSnapback: bool;
+   signalType: SignalType;
+   ticker: text;
+   time: text;
+   timeframe: Timeframe;
+   touchDepth: float64;
+   touchDepthRatio: float64;
+ };
+type Settings = 
+ record {
+   bbLength: nat;
+   bbStdDev: float64;
+   minBandWidthRatio: float64;
+   minMinutesIntoBar: float64;
+   rsiEmbedHigh: float64;
+   rsiEmbedLow: float64;
+   rsiOverbought: float64;
+   rsiOversold: float64;
+   rsiPeriod: nat;
+ };
+type ExternalBlob = blob;
+type DatasetId = nat;
+type Dataset = 
+ record {
+   file: ExternalBlob;
+   id: DatasetId;
+   name: text;
+   rows: vec SignalRow;
+   uploadedAt: Timestamp;
+ };
+type Asset = text;
+service : {
+  __datasets: (ko: opt DatasetId, count: opt nat) ->
+   (vec record {
+          DatasetId;
+          Dataset;
+        }) query;
+  __nextId: () -> (reserved) query;
+  __settings: () -> (reserved) query;
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  getDataset: (id: DatasetId) -> (opt Dataset) query;
+  getDatasetRows: (id: DatasetId) -> (opt vec SignalRow) query;
+  getSettings: () -> (Settings) query;
+  listDatasets: () -> (vec Dataset) query;
+  updateSettings: (newSettings: Settings) -> ();
+  uploadDataset: (name: text, file: ExternalBlob) -> (DatasetId);
+}

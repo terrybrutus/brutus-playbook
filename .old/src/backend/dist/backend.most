@@ -1,0 +1,102 @@
+// Version: 4.0.0
+type Asset__410078662 = Text;
+type Asset__508583995 = Asset__410078662;
+type Data__80296667<K, V> =
+  {var count : Nat__1040412405; kvs : [var ?(K, V)]};
+type DatasetId__761773773 = Nat;
+type DatasetId__817280593 = DatasetId__993369394;
+type DatasetId__993369394 = DatasetId__761773773;
+type Dataset__577811591 =
+  {
+    file : ExternalBlob__365673026;
+    id : DatasetId__993369394;
+    name : Text;
+    rows : [SignalRow__271592885];
+    uploadedAt : Timestamp__290498168
+  };
+type Dataset__897154955 = Dataset__577811591;
+type Datasets__963414865 =
+  Map__222667396<DatasetId__817280593, Dataset__897154955>;
+type ExternalBlob__365673026 = Blob;
+type Internal__41346355<K, V> =
+  {children : [var ?Node__1000929467<K, V>]; data : Data__80296667<K, V>};
+type Leaf__712614010<K, V> = {data : Data__80296667<K, V>};
+type Map__222667396<K, V> = Map__912772452<K, V>;
+type Map__709709801<K, V> =
+  {var root : Node__1000929467<K, V>; var size : Nat__1040412405};
+type Map__912772452<K, V> = Map__709709801<K, V>;
+type Nat__1040412405 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__421701347 =
+  {
+    datasets : Datasets__963414865;
+    nextId : {var value : DatasetId__993369394};
+    settings : {var current : Settings__777955490}
+  };
+type Node__1000929467<K, V> =
+  {#internal : Internal__41346355<K, V>; #leaf : Leaf__712614010<K, V>};
+type OldActor__761820472 = {};
+type Settings__777955490 =
+  {
+    bbLength : Nat;
+    bbStdDev : Float;
+    minBandWidthRatio : Float;
+    minMinutesIntoBar : Float;
+    rsiEmbedHigh : Float;
+    rsiEmbedLow : Float;
+    rsiOverbought : Float;
+    rsiOversold : Float;
+    rsiPeriod : Nat
+  };
+type SignalRow__271592885 =
+  {
+    alertId : Text;
+    asset : Asset__508583995;
+    bandWidth : Float;
+    bbBasis : Float;
+    bbLower : Float;
+    bbUpper : Float;
+    close : Float;
+    decisionEvent : Text;
+    high : Float;
+    inSession : Bool;
+    longSnapback : Bool;
+    low : Float;
+    minutesIntoBar : Float;
+    mode : Text;
+    name : Text;
+    open : Float;
+    pushThrough : Bool;
+    rsi : Float;
+    shortSnapback : Bool;
+    signalType : SignalType__517682559;
+    ticker : Text;
+    time : Text;
+    timeframe : Timeframe__408959012;
+    touchDepth : Float;
+    touchDepthRatio : Float
+  };
+type SignalType__517682559 =
+  {
+    #noTrade;
+    #pushThroughLong;
+    #pushThroughShort;
+    #snapbackLong;
+    #snapbackShort
+  };
+type Timeframe__1028336653 = Text;
+type Timeframe__408959012 = Timeframe__1028336653;
+type Timestamp__290498168 = Timestamp__301639476;
+type Timestamp__301639476 = Nat;
+{
+  "20260629_000000" : (old : OldActor__761820472) -> NewActor__421701347
+}
+actor  {
+  stable datasets :
+    {
+      var root : Node__1000929467<DatasetId__817280593, Dataset__897154955>;
+      var size : Nat__1040412405
+    };
+  stable nextId : {var value : DatasetId__993369394};
+  stable settings : {var current : Settings__777955490}
+};

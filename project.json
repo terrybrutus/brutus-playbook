@@ -1,0 +1,22 @@
+{
+  "overview": "A strategy-analysis dashboard that parses TradingView alert-log CSVs and runs the Brutus Playbook Bollinger Band strategy to surface trade setups, filters, and analytics.",
+  "features": [
+    "Upload or load a sample TradingView alert-log CSV and parse it robustly",
+    "Compute derived 9-period RSI and Bollinger basis per asset and timeframe",
+    "Classify every band touch as snapback or push-through with MTF alignment",
+    "Apply minutes-into-bar, bandWidth volatility, and session filters",
+    "Surface trade setups with dynamic exit ladders across a dashboard and signals feed",
+    "Configure all strategy parameters in a settings panel that re-runs live",
+    "Read the full methodology on a strategy explainer page"
+  ],
+  "category": "productivity",
+  "tags": [
+    "trading",
+    "analytics",
+    "dashboard",
+    "bollinger-bands",
+    "strategy",
+    "csv-parsing"
+  ],
+  "last_updated": "2026-06-29T03:10:46.516Z"
+}
